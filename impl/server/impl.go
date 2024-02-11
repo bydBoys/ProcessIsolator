@@ -25,6 +25,12 @@ func genGetProcLogResponse(response *config.GetProcLogResponse, exist bool, logs
 		Logs:  logs,
 	}
 }
+func genKillProcResponse(response *config.KillProcLogResponse, success bool, errMsg string) {
+	*response = config.KillProcLogResponse{
+		Success: success,
+		Error:   errMsg,
+	}
+}
 
 func (receiver ProcServerImpl) StartProc(request *config.StartProcRequest, response *config.StartProcResponse) error {
 	var uuid = util.RandStringBytes(10)
@@ -59,5 +65,25 @@ func (receiver ProcServerImpl) GetProcLog(request *config.GetProcLogRequest, res
 	record, err := getRecord(request.UUID)
 	exist := err != nil && record != nil
 	genGetProcLogResponse(response, exist, lines, "")
+	return nil
+}
+
+func (receiver ProcServerImpl) KillProc(request *config.KillProcLogRequest, response *config.KillProcLogResponse) error {
+	record, err := getRecord(request.UUID)
+	exist := err != nil && record != nil
+	if exist {
+		if err := util.KillProcess(record.Pid); err != nil {
+			genKillProcResponse(response, false, err.Error())
+			return nil
+		}
+		genKillProcResponse(response, true, "")
+		return nil
+	}
+	genKillProcResponse(response, true, "")
+	return nil
+}
+
+func (receiver ProcServerImpl) GetVersion(request *int, response *string) error {
+	*response = constants.Version
 	return nil
 }
