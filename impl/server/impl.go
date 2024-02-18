@@ -34,7 +34,7 @@ func genKillProcResponse(response *config.KillProcLogResponse, success bool, err
 
 func (receiver ProcServerImpl) StartProc(request *config.StartProcRequest, response *config.StartProcResponse) error {
 	var uuid = util.RandStringBytes(10)
-	child, writePipe := newChildProcess(request.UserIsolated, constants.Hook, uuid)
+	child, writePipe := newIsolatedProcess(request.IsolatedEnvironment, uuid)
 	if child == nil {
 		genStartProcResponse(response, "-1", "fork child error")
 		return nil
@@ -44,15 +44,15 @@ func (receiver ProcServerImpl) StartProc(request *config.StartProcRequest, respo
 		return nil
 	}
 	var cgroup subsystems.ResourceConfig
-	if request.CGroup.Enable {
-		cgroup.MemoryLimit = request.CGroup.MemoryLimit
-		cgroup.CpuShare = request.CGroup.CpuShare
-		cgroup.CpuSet = request.CGroup.CpuSet
+	if request.IsolatedEnvironment.CGroup.Enable {
+		cgroup.MemoryLimit = request.IsolatedEnvironment.CGroup.MemoryLimit
+		cgroup.CpuShare = request.IsolatedEnvironment.CGroup.CpuShare
+		cgroup.CpuSet = request.IsolatedEnvironment.CGroup.CpuSet
 	}
 	putRecord(child, uuid, &cgroup)
 	genStartProcResponse(response, uuid, "")
 
-	util.SendCommand(request.Commands, writePipe)
+	util.SendCommand(request.Command, writePipe)
 	return nil
 }
 

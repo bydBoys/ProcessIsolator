@@ -56,12 +56,17 @@ func getRecord(uuid string) (*config.Record, error) {
 	return &record, nil
 }
 
-func newChildProcess(userConfig config.UserIsolated, isolatedHook func(config.UserIsolated, string), uuid string) (*exec.Cmd, *os.File) {
+func newIsolatedProcess(isolatedEnv config.IsolatedEnvironment, uuid string) (*exec.Cmd, *os.File) {
 	readPipe, writePipe, err := util.NewPipe()
 	if err != nil {
 		return nil, nil
 	}
 	initCmd, err := os.Readlink("/proc/self/exe")
+	if err != nil {
+		return nil, nil
+	}
+
+	path, err := getRootPath(uuid, isolatedEnv.RootfsName, isolatedEnv.RootfsSHA)
 	if err != nil {
 		return nil, nil
 	}
@@ -72,13 +77,12 @@ func newChildProcess(userConfig config.UserIsolated, isolatedHook func(config.Us
 		Cloneflags:   cloneFlags,
 		Unshareflags: syscall.CLONE_NEWNS,
 	}
-	if userConfig.Enable {
+	if isolatedEnv.UserIsolated.Enable {
 		cloneFlags |= syscall.CLONE_NEWUSER
 		cmd.SysProcAttr.Credential = &syscall.Credential{
 			Uid: uint32(1),
 			Gid: uint32(1),
 		}
-		isolatedHook(userConfig, uuid)
 	}
 	logPath := fmt.Sprintf(constants.ProcLogPath, uuid)
 
@@ -88,6 +92,8 @@ func newChildProcess(userConfig config.UserIsolated, isolatedHook func(config.Us
 	}
 
 	cmd.ExtraFiles = []*os.File{readPipe}
+	cmd.Env = isolatedEnv.Envs
+	cmd.Dir = path
 
 	return cmd, writePipe
 }
