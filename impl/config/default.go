@@ -7,9 +7,8 @@ type (
 	}
 
 	StartProcRequest struct {
-		Commands     []string `json:"commands"`
-		UserIsolated `json:"user_isolated"`
-		CGroup       `json:"c_group"`
+		IsolatedEnvironment IsolatedEnvironment
+		Command             []string `json:"command"`
 	}
 	StartProcResponse struct {
 		Error string `json:"error"`

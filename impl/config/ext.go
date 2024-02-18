@@ -10,4 +10,13 @@ type (
 		CpuSet      string `json:"cpu_set"`
 		MemoryLimit string `json:"memory_limit"`
 	}
+
+	IsolatedEnvironment struct {
+		UserIsolated UserIsolated `json:"user_isolated"`
+		CGroup       CGroup       `json:"c_group"`
+
+		Envs       []string `json:"envs"`
+		RootfsName string   `json:"rootfs_name"`
+		RootfsSHA  string   `json:"rootfs_sha"`
+	}
 )
