@@ -13,13 +13,10 @@ func main() {
 	app.Name = constants.Name
 	app.Description = constants.Desc
 
-	app.Commands = []cli.Command{
-		childCommand,
-		daemonCommand,
-
+	app.Commands = append([]cli.Command{
 		startCommand,
 		versionCommand,
-	}
+	}, initCommand, daemonCommand) // hidden flag
 
 	app.Before = func(context *cli.Context) error {
 		color.Cyan(constants.Desc)

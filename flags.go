@@ -12,12 +12,12 @@ import (
 )
 
 var (
-	childCommand = cli.Command{
+	initCommand = cli.Command{
 		Hidden: true,
 		Name:   "init",
 		Usage:  "Do not call it outside",
 		Action: func(context *cli.Context) error {
-			return app.RunChildInitProcess()
+			return app.RunIsolatedProcessInit()
 		},
 	}
 	daemonCommand = cli.Command{
@@ -48,12 +48,12 @@ var (
 				Usage: "Specify the output file",
 			},
 		},
-		// 每次运行前，先检查是否有守护进程正在运行
+		// before run, scan proc and kill exist daemon
 		Before: func(context *cli.Context) error {
 			return func(keyword string) error {
 				var (
 					currentPID = os.Getpid()
-					pid        int // 内存优化
+					pid        int
 					command    string
 					err        error
 					files      []os.DirEntry

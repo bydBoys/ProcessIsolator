@@ -8,10 +8,10 @@ import (
 	"syscall"
 )
 
-func RunChildInitProcess() error {
+func RunIsolatedProcessInit() error {
 	cmdArray := util.ReadCommand()
 	if cmdArray == nil || len(cmdArray) == 0 {
-		return fmt.Errorf("child process get command error")
+		return fmt.Errorf("isolated process get command error")
 	}
 
 	path, err := exec.LookPath(cmdArray[0])
