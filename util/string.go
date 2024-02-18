@@ -5,12 +5,18 @@ import (
 	"time"
 )
 
+var randPool *rand.Rand
+
+func init() {
+	randPool = rand.New(rand.NewSource(time.Now().UnixNano()))
+}
+
 func RandStringBytes(n int) string {
 	letterBytes := "1234567890"
-	rand.Seed(time.Now().UnixNano())
+
 	b := make([]byte, n)
 	for i := range b {
-		b[i] = letterBytes[rand.Intn(len(letterBytes))]
+		b[i] = letterBytes[randPool.Intn(len(letterBytes))]
 	}
 	return string(b)
 }

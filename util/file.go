@@ -19,7 +19,9 @@ func ReadFileLines(path string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer file.Close()
+	defer func(file *os.File) {
+		_ = file.Close()
+	}(file)
 
 	var lines []string
 	scanner := bufio.NewScanner(file)
