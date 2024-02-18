@@ -1,7 +1,7 @@
 package server
 
 import (
-	"ProcZygote/constants"
+	"ProcessIsolator/constants"
 	"github.com/fatih/color"
 	"log"
 	"net"

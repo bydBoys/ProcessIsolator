@@ -1,13 +1,13 @@
 package app
 
 import (
-	"ProcZygote/impl/server"
-	"ProcZygote/util"
+	"ProcessIsolator/impl/server"
+	"ProcessIsolator/util"
 	"os"
 	"os/exec"
 )
 
-func RunProcZygote(daemon bool, outPath string) error {
+func RunProcessIsolator(daemon bool, outPath string) error {
 	if daemon {
 		return runSelfDaemon(outPath)
 	}

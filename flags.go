@@ -1,9 +1,9 @@
 package main
 
 import (
-	"ProcZygote/constants"
-	"ProcZygote/impl/app"
-	"ProcZygote/util"
+	"ProcessIsolator/constants"
+	"ProcessIsolator/impl/app"
+	"ProcessIsolator/util"
 	"github.com/fatih/color"
 	"github.com/urfave/cli"
 	"os"
@@ -25,7 +25,7 @@ var (
 		Name:   "daemon",
 		Usage:  "Do not call it outside",
 		Action: func(context *cli.Context) error {
-			return app.RunProcZygote(false, "")
+			return app.RunProcessIsolator(false, "")
 		},
 	}
 
@@ -36,7 +36,7 @@ var (
 			daemon := context.Bool("daemon")
 			outFile := context.String("out")
 
-			return app.RunProcZygote(daemon, outFile)
+			return app.RunProcessIsolator(daemon, outFile)
 		},
 		Flags: []cli.Flag{
 			cli.BoolFlag{

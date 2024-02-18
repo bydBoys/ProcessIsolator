@@ -1,7 +1,7 @@
 package app
 
 import (
-	"ProcZygote/util"
+	"ProcessIsolator/util"
 	"fmt"
 	"os"
 	"os/exec"

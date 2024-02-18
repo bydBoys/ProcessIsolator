@@ -1,11 +1,11 @@
 package server
 
 import (
-	"ProcZygote/constants"
-	"ProcZygote/impl/app/cgroups"
-	"ProcZygote/impl/app/cgroups/subsystems"
-	"ProcZygote/impl/config"
-	"ProcZygote/util"
+	"ProcessIsolator/constants"
+	"ProcessIsolator/impl/app/cgroups"
+	"ProcessIsolator/impl/app/cgroups/subsystems"
+	"ProcessIsolator/impl/config"
+	"ProcessIsolator/util"
 	"fmt"
 	"log"
 	"os"

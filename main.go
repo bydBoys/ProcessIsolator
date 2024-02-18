@@ -1,7 +1,7 @@
 package main
 
 import (
-	"ProcZygote/constants"
+	"ProcessIsolator/constants"
 	"github.com/fatih/color"
 	"github.com/urfave/cli"
 	"log"
@@ -11,7 +11,7 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Name = constants.Name
-	app.Usage = constants.Usage
+	app.Description = constants.Desc
 
 	app.Commands = []cli.Command{
 		childCommand,
@@ -22,7 +22,12 @@ func main() {
 	}
 
 	app.Before = func(context *cli.Context) error {
-		color.Cyan(constants.Usage)
+		color.Cyan(constants.Desc)
+		if os.Getuid() != 0 {
+			color.HiRed("Only root user can run it, because of the linux's restriction on namespace")
+			os.Exit(-1)
+		}
+
 		return nil
 	}
 

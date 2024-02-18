@@ -1,4 +1,4 @@
-module ProcZygote
+module ProcessIsolator
 
 go 1.21
 

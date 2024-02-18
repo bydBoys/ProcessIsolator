@@ -1,14 +1,14 @@
-## ProcZygote
-一个轻量化的分布式子程序调用程序
+## ProcessIsolator
+A tool used for running specified process in isolated environment. Enjoy it, just for fun.
 
-### 使用说明
-支持两种运行方式：
+### Usage
+To start, we provide two ways:
 
-- 前台运行，直接使用`./ProcZygote start`
-- 后台运行，使用`./ProcZygote -daemon -out 日志文件路径`
+- Run it in front, you can use `./ProcessIsolator start`
+- Run it in background, you can use `./ProcessIsolator -daemon -out logfilepath`
 
-**特别注意：**
+### Alert
 
-1. 如需更改端口，请查看`constants/default.go`
-2. 首次运行，需手动创建`/run/ProcZygote/logs`目录
-3. 如需使用userNS，则需使用root权限运行本程序
+1. If you need to change the RPC's port, see `constants/default.go`
+2. For the first run, the path of `/run/ProcZygote/logs` should be available
+3. Only root user can run it, because of the linux's restriction on namespace

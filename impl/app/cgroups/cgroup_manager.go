@@ -1,7 +1,7 @@
 package cgroups
 
 import (
-	"ProcZygote/impl/app/cgroups/subsystems"
+	"ProcessIsolator/impl/app/cgroups/subsystems"
 	"github.com/fatih/color"
 )
 
