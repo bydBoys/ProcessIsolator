@@ -49,7 +49,7 @@ func (impl *FileServerImpl) UploadFile(w http.ResponseWriter, r *http.Request) {
 }
 
 func (impl *FileServerImpl) ListFile(w http.ResponseWriter, r *http.Request) {
-
+	// todo: listFile
 }
 
 func (impl *FileServerImpl) DeleteFile(w http.ResponseWriter, r *http.Request) {
