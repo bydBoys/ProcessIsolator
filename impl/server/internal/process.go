@@ -86,13 +86,15 @@ func GetRecord(uuid string) (*config.Record, error) {
 
 // ----------------------------------------------------------------------------------------------------------
 
-func waitProc(c *exec.Cmd, id string, cgroupManager *cgroups.CgroupManager) {
+func waitProc(c *exec.Cmd, uuid string, cgroupManager *cgroups.CgroupManager) {
 	runtime.Gosched()
 	_ = c.Wait()
 	rwLock.Lock()
-	delete(records, id)
+	delete(records, uuid)
 	rwLock.Unlock()
 	runtime.Gosched()
 	cgroupManager.Destroy()
 	// todo: unmount
+	var runPath = fmt.Sprintf(constants.ProcRunPath, uuid)
+	_ = util.UnMountBind(runPath)
 }

@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"strconv"
 	"strings"
+	"syscall"
 )
 
 func ReadCmdline(pid int) (string, error) {
@@ -25,4 +26,14 @@ func KillProcess(pid int) error {
 	}
 
 	return nil
+}
+
+func MountBind(path string) error {
+	flags := syscall.MS_BIND
+
+	return syscall.Mount(path, path, "bind", uintptr(flags), "")
+}
+
+func UnMountBind(path string) error {
+	return syscall.Unmount(path, 0)
 }

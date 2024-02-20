@@ -36,6 +36,12 @@ func (impl *ProcessServerImpl) StartProc(request *config.StartProcRequest, respo
 	}
 
 	// todo: mount
+	var runPath = fmt.Sprintf(constants.ProcRunPath, uuid)
+	if err = util.MountBind(runPath); err != nil {
+		impl.errorChan <- fmt.Errorf("somebody want to StartProc, but occour error %s", err)
+		genStartProcResponse(response, "-1", fmt.Sprintf("internal error %s", err))
+		return nil
+	}
 
 	if err = process.Start(); err != nil {
 		impl.errorChan <- fmt.Errorf("somebody want to StartProc, but occour error %s", err)
