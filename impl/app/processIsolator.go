@@ -14,6 +14,14 @@ func RunProcessIsolator(daemon bool, outPath string) error {
 	}
 
 	server.StartServer(log.GetLogChan())
+	// todo: syscall listener
+	strings := make(chan string)
+	for {
+		select {
+		case <-strings:
+
+		}
+	}
 	return nil
 }
 

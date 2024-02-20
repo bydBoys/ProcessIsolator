@@ -7,6 +7,7 @@ import (
 	"net"
 	"net/http"
 	"net/rpc"
+	"os"
 	"runtime"
 )
 
@@ -19,6 +20,10 @@ func StartServer(errorChan chan<- error, msgChan chan<- string) {
 		return
 	}
 	msgChan <- fmt.Sprintf("listen(%s) on %s", "tcp", constants.Port)
+
+	os.MkdirAll(constants.BasePath, 0600)
+	// todo: check
+
 	startFileServer(errorChan, msgChan)
 	go startProcessServer(errorChan, msgChan)
 	runtime.Gosched()
