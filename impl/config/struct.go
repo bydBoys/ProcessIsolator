@@ -19,4 +19,9 @@ type (
 		RootfsName string   `json:"rootfs_name"`
 		RootfsSHA  string   `json:"rootfs_sha"`
 	}
+
+	Record struct {
+		Pid  int    `json:"pid"`
+		UUID string `json:"uuid"`
+	}
 )

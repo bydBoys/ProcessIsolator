@@ -1,6 +1,7 @@
 package app
 
 import (
+	"ProcessIsolator/impl/app/log"
 	"ProcessIsolator/impl/server"
 	"ProcessIsolator/util"
 	"os"
@@ -12,7 +13,8 @@ func RunProcessIsolator(daemon bool, outPath string) error {
 		return runSelfDaemon(outPath)
 	}
 
-	return server.StartRPCServer()
+	server.StartServer(log.GetLogChan())
+	return nil
 }
 
 func runSelfDaemon(outPath string) error {
