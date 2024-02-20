@@ -94,6 +94,14 @@ func (impl *ProcessServerImpl) KillProc(request *config.KillProcLogRequest, resp
 	return nil
 }
 
+func (impl *ProcessServerImpl) GetVersion(request *config.GetVersionRequest, response *config.GetVersionResponse) error {
+	impl.msgChan <- fmt.Sprintf("%s getVersion", request.Requester)
+	*response = config.GetVersionResponse{
+		Version: constants.Version,
+	}
+	return nil
+}
+
 // ----------------------------------------------------------------------------------------------------------
 
 func genStartProcResponse(response *config.StartProcResponse, uuid string, errMsg string) {

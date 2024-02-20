@@ -12,5 +12,6 @@ type (
 		StartProc(request *StartProcRequest, response *StartProcResponse) error
 		GetProcLog(request *GetProcLogRequest, response *GetProcLogResponse) error
 		KillProc(request *KillProcLogRequest, response *KillProcLogResponse) error
+		GetVersion(request *GetVersionRequest, response *GetVersionResponse) error
 	}
 )

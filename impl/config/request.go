@@ -26,4 +26,11 @@ type (
 		Success bool   `json:"success"`
 		Error   string `json:"error"`
 	}
+
+	GetVersionRequest struct {
+		Requester string `json:"requester"`
+	}
+	GetVersionResponse struct {
+		Version string `json:"version"`
+	}
 )
