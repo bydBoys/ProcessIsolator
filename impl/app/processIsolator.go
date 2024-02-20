@@ -6,6 +6,8 @@ import (
 	"ProcessIsolator/util"
 	"os"
 	"os/exec"
+	"os/signal"
+	"syscall"
 )
 
 func RunProcessIsolator(daemon bool, outPath string) error {
@@ -14,14 +16,9 @@ func RunProcessIsolator(daemon bool, outPath string) error {
 	}
 
 	server.StartServer(log.GetLogChan())
-	// todo: syscall listener
-	strings := make(chan string)
-	for {
-		select {
-		case <-strings:
-
-		}
-	}
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL, syscall.SIGQUIT)
+	<-quit
 	return nil
 }
 
